@@ -1,1 +1,1 @@
-# cnu-sw-academy-codingtest
+# 충남대학교 SW 아카데미 코딩테스트
