@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Solution {
+public class _03_TinyEcho {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String bread_1 = sc.next();
