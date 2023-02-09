@@ -7,8 +7,8 @@ public class Solution {
         int size = Integer.parseInt(br.readLine());
         int[] array = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
         Arrays.parallelPrefix(array, Integer::sum);
-        int result = array[0];
-        for (int i = 0 ; i < size ; i++) {
+        int result = Arrays.stream(array).max().getAsInt();
+        for (int i = 1 ; i < size ; i++) {
             for (int j = 0 ; j < i ; j++) {
                 result = Math.max(array[i] - array[j], result);
             }
