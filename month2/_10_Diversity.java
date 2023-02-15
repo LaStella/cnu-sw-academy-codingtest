@@ -1,36 +1,30 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Solution {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int size = Integer.parseInt(st.nextToken());
-        int querySize = Integer.parseInt(st.nextToken());
-        // 주어진 문자열을 e는 1로, 그 외의 문자는 0으로 변환하여 배열에 저장합니다.
-        int[] array = Arrays.stream(br.readLine().split("")).mapToInt(s -> {
-            if (s.equals("e")) return 1;
-            return 0;
-        }).toArray();
-        // 배열의 누적합을 저장합니다.
-        // array[i] : 0부터 i번째 문자까지 e가 나온 개수
-        Arrays.parallelPrefix(array, Integer::sum);
+        int size = Integer.parseInt(br.readLine());
+        String input = br.readLine();
+        Map<Character, Long> map = input.chars().mapToObj(c -> (char) c)
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
-        StringBuilder sb = new StringBuilder();
-        while (querySize-- > 0) {
-            st = new StringTokenizer(br.readLine());
-            int start = Integer.parseInt(st.nextToken())-1;
-            int end = Integer.parseInt(st.nextToken())-1;
-            if (start == 0) {
-                sb.append(array[end]+"\n");
-                continue;
+        int result = 0;
+        Set<Character> set = new HashSet<>();
+        for (int i = 0; i < size; i++) {
+            char now = input.charAt(i);
+            set.add(now);
+            if (map.compute(now, (k, v) -> v - 1) == 0) {
+                map.remove(now);
             }
-            sb.append(array[end]-array[start-1]+"\n");
+            result = Math.max(set.size()+ map.size(), result);
         }
-        
-        System.out.println(sb);
+        System.out.println(result);
     }
 }
